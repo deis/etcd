@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"os"
 	"os/exec"
@@ -248,6 +247,11 @@ func setJoinMode(c cookoo.Context, p *cookoo.Params) (interface{}, cookoo.Interr
 	// even if not all the hosts are healthy.
 	res, err := etcd.SimpleGet(cli, path, true)
 	if err != nil {
+		// This means that the discovery server is brand new, and nothing
+		// has written to it yet. So we're new.
+		if strings.Contains(err.Error(), "Key not found") {
+			return "new", nil
+		}
 		log.Errf(c, "Failed simple get of %s: %s", path, err)
 		return state, err
 	}

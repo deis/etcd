@@ -18,7 +18,7 @@
         }
       ],
       "selector":{
-         "name":"deis-etcd-discovery-rc"
+         "name":"deis-etcd-discovery"
       }
    }
 }
