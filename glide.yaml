@@ -1,0 +1,4 @@
+package: github.com/deis/etcd
+import:
+  - package: github.com/Masterminds/cookoo
+  - package: github.com/coreos/etcd
