@@ -5,7 +5,7 @@
 # Set these if they are not present in the environment.
 export GOARCH ?= amd64
 export GOOS ?= linux
-export MANIFESTS ?= "./manifests"
+export MANIFESTS ?= ./manifests
 export DEV_REGISTRY ?= "$(shell docker-machine ip deis):5000"
 export DEIS_REGISTRY ?= ${DEV_REGISTRY}
 
@@ -18,7 +18,7 @@ BINDIR := rootfs/bin
 VERSION := $(shell git describe --tags)
 LDFLAGS := "-s -X main.version=${VERSION}"
 IMAGE := ${DEIS_REGISTRY}/deis/etcd:${VERSION}
-RC := "${MANIFESTS}/deis-etcd-rc.json"
+RC := ${MANIFESTS}/deis-etcd-rc.json
 DISCOVERY_RC := "${MANIFESTS}/deis-etcd-discovery-rc.json"
 
 # Get non-vendor source code directories.
@@ -39,7 +39,7 @@ clean:
 	-rm rootfs/bin/boot
 
 docker-build:
-	docker build --rm -t ${IMAGE} .
+	docker build --rm -t ${IMAGE} rootfs
 
 docker-push:
 	docker push ${IMAGE}
@@ -48,11 +48,18 @@ kube-delete:
 	-kubectl delete rc deis-etcd-1
 	sleep 5
 
+kube-delete-all: kube-delete
+	kubectl delete service deis-etcd-discovery
+	kubectl delete service deis-etcd-1
+	kubectl delete secret deis-etcd-discovery-token
+
 kube-rc:
 	@# The real pattern to match is v[0-9]+.[0-9]+.[0-9]+-[0-9]+-[0-9a-z]{8}, but
 	@# we want to find broken versions, too.
 	perl -pi -e "s|[a-z0-9.:]+\/deis\/etcd:[0-9a-z-.]+|${IMAGE}|g" ${RC} ${DISCOVERY_RC}
-	kubectl create -f ${DISCOVERY_RC}
+	-kubectl create -f ${DISCOVERY_RC}
+	@echo "Pause for discovery service to come online."
+	sleep 15
 	kubectl create -f ${RC}
 
 kube-update:
@@ -73,4 +80,4 @@ test:
 
 all: build docker-build docker-push kube-clean kube-rc test
 
-.PHONY: build clean docker-build docker-push all kube-clean kube-rc kube-service info kube-secrets
+.PHONY: build clean docker-build docker-push all kube-clean kube-rc kube-service info kube-secrets kube-delete-all

@@ -248,14 +248,16 @@ func setJoinMode(c cookoo.Context, p *cookoo.Params) (interface{}, cookoo.Interr
 	// even if not all the hosts are healthy.
 	res, err := etcd.SimpleGet(cli, path, true)
 	if err != nil {
+		log.Errf(c, "Failed simple get of %s: %s", path, err)
 		return state, err
 	}
 
 	if !res.Node.Dir {
-		return state, errors.New("Expected a directory node in discovery service")
-	}
-
-	if len(res.Node.Nodes) < dint {
+		//return state, errors.New("Expected a directory node in discovery service")
+		log.Info(c, "No status information found in discovery service. Assuming new.")
+		state = "new"
+	} else if len(res.Node.Nodes) < dint {
+		log.Info(c, "Cluster has not reached consensus number. Assuming new.")
 		state = "new"
 	}
 

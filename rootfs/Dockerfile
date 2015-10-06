@@ -3,7 +3,7 @@ FROM alpine:3.1
 RUN apk add --update-cache curl \
     && rm -rf /var/cache/apk/*
 
-COPY rootfs /
+COPY . /
 WORKDIR /opt
 
 # Install Etcd and EtcdCtl

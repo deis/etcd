@@ -30,7 +30,7 @@
             "containers":[
                {
                   "name":"deis-etcd-1",
-                  "image":"192.168.99.100:5000/deis/etcd:v1.10.0-118-ge8f7751",
+                  "image":"192.168.99.100:5000/deis/etcd:0.0.1",
                    "env":[
                      {
                        "name": "DEIS_ETCD_CLUSTER_SIZE",
