@@ -295,6 +295,7 @@ func iam(c cookoo.Context, p *cookoo.Params) (interface{}, cookoo.Interrupt) {
 	} else {
 		me.ShuntEnv()
 		os.Setenv("ETCD_NAME", me.Name)
+		c.Put("ETCD_NAME", me.Name)
 	}
 
 	passEnv("MY_PORT_CLIENT", "$DEIS_ETCD_1_SERVICE_PORT_CLIENT")

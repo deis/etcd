@@ -30,7 +30,7 @@
             "containers":[
                {
                   "name":"deis-etcd-discovery",
-                  "image":"192.168.99.100:5000/deis/etcd:0.0.1-1-g57f6eaa",
+                  "image":"192.168.99.100:5000/deis/etcd:0.0.1-2-g0d0e135",
                   "command": ["/bin/discovery"],
                   "ports": [
                     {
