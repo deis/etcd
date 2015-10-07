@@ -1,4 +1,5 @@
 # How to Contribute
 
-This file should point to a master document on contributions, and also
-contain any necessary details that pertain to this component.
+This project is part of Deis. You can find the latest contribution
+guidelines [at the Deis project](https://github.com/deis/deis/blob/master/CONTRIBUTING.md).
+

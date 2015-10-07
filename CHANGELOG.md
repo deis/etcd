@@ -1,3 +1,6 @@
 # Changlog for PROJECTNAME
 
-This is a placeholder for a markdown-formatted changelog.
+## 0.0.2
+- Stabilized discovery service
+- Better self-healing
+- Merged etcd-discovery into this project
