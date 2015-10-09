@@ -1,6 +1,7 @@
 # ! IMPORTANT ! We are no longer using `godeps` to run builds. You should
 # 	be using the GO15VENDOREXPERIMENT flag, and your dependencies should
 # 	all be in $DEIS/vendor
+SHORT_NAME=etcd
 
 # Set these if they are not present in the environment.
 export GOARCH ?= amd64
@@ -15,11 +16,11 @@ export CGO_ENABLED=0
 
 # Environmental details
 BINDIR := rootfs/bin
-VERSION := $(shell git describe --tags)
+VERSION := 0.0.1-$(shell date "+%Y%m%d%H%M%S")
 LDFLAGS := "-s -X main.version=${VERSION}"
-IMAGE := ${DEIS_REGISTRY}/deis/etcd:${VERSION}
-RC := ${MANIFESTS}/deis-etcd-rc.json
-DISCOVERY_RC := "${MANIFESTS}/deis-etcd-discovery-rc.json"
+IMAGE := ${DEIS_REGISTRY}/deis/${SHORT_NAME}:${VERSION}
+RC := ${MANIFESTS}/deis-${SHORT_NAME}-rc.json
+DISCOVERY_RC := ${MANIFESTS}/deis-${SHORT_NAME}-discovery-rc.json
 
 # Get non-vendor source code directories.
 NV := $(shell glide nv)
