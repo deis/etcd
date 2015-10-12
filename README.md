@@ -7,7 +7,7 @@ There are two parts:
 - An in-cluster discovery service (`deis-etcd-discovery`)
 - A dynamic etcd cluster (`deis-etcd`)
 
-Both parts run inside of any Kubernetes 1.0+ cluster. Not modifications
+Both parts run inside of any Kubernetes 1.0+ cluster. No modifications
 need to be made to Kubernetes.
 
 ## Usage
