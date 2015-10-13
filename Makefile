@@ -25,6 +25,10 @@ DISCOVERY_RC := ${MANIFESTS}/deis-${SHORT_NAME}-discovery-rc.json
 # Get non-vendor source code directories.
 NV := $(shell glide nv)
 
+# Set up the development environment
+setup:
+	glide up --import --delete-flatten
+
 build:
 	go build -o ${BINDIR}/boot -a -installsuffix cgo -ldflags ${LDFLAGS}  boot.go
 	go build -o ${BINDIR}/discovery -a -installsuffix cgo -ldflags ${LDFLAGS}  discovery.go

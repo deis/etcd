@@ -1,6 +1,8 @@
 package: github.com/deis/etcd
+flatten: true
 import:
   - package: github.com/Masterminds/cookoo
   - package: github.com/coreos/etcd
   - package: github.com/deis/deis
     ref: v2
+  - package: k8s.io/kubernetes
