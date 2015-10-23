@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/coreos/go-etcd/etcd"
-	"github.com/deis/deis/pkg/aboutme"
-	"github.com/deis/deis/pkg/etcd/discovery"
+	"github.com/deis/pkg/aboutme"
+	"github.com/deis/pkg/etcd/discovery"
 )
 
 var version = "DEV"
