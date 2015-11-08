@@ -15,7 +15,7 @@ export GO15VENDOREXPERIMENT=1
 export CGO_ENABLED=0
 
 # Environmental details
-BINDIR := rootfs/bin
+BINDIR := rootfs/usr/local/bin
 VERSION := 0.0.1-$(shell date "+%Y%m%d%H%M%S")
 LDFLAGS := "-s -X main.version=${VERSION}"
 IMAGE := ${DEIS_REGISTRY}/deis/${SHORT_NAME}:${VERSION}

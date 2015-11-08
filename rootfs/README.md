@@ -18,9 +18,9 @@ interested in deploying the smallest possible images.
 Example:
 
 ```Dockerfile
-FROM alpine:3.1
+FROM alpine:3.2
 
 COPY . /
 
-ENTRYPOINT ["/bin/boot"]
+ENTRYPOINT ["/usr/local/bin/boot"]
 ```

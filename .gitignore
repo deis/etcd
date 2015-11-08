@@ -1,3 +1,2 @@
-rootfs/bin/boot
-rootfs/bin/discovery
+rootfs/usr/local/bin/*
 vendor/
