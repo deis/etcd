@@ -1,18 +1,13 @@
-FROM alpine:3.1
-
-RUN apk add --update-cache curl \
-    && rm -rf /var/cache/apk/*
+FROM alpine:3.2
 
 COPY . /
-WORKDIR /opt
 
 # Install Etcd and EtcdCtl
-RUN curl -sSL https://github.com/coreos/etcd/releases/download/v2.2.0-rc.0/etcd-v2.2.0-rc.0-linux-amd64.tar.gz -o /opt/etcd.tgz \
-    && tar -zxf /opt/etcd.tgz \
-    && mv /opt/etcd-v2.2.0-rc.0-linux-amd64/etcd /usr/local/bin/etcd \
-    && mv /opt/etcd-v2.2.0-rc.0-linux-amd64/etcdctl /usr/local/bin/etcdctl \
-    && chmod +x /usr/local/bin/etcd \
-    && rm -rf /opt/etcd-v2.2.0-rc.0-linux-amd64 /opt/etcd.tgz
+RUN apk add --update-cache curl tar \
+    && curl -sSL https://github.com/coreos/etcd/releases/download/v2.2.1/etcd-v2.2.1-linux-amd64.tar.gz \
+    | tar -vxz -C /usr/local/bin --strip=1 etcd-v2.2.1-linux-amd64/etcd etcd-v2.2.1-linux-amd64/etcdctl \
+    && apk del --purge curl tar \
+    && rm -rf /var/cache/apk/*
 
 RUN chmod +x /bin/boot /bin/discovery
 
