@@ -27,7 +27,7 @@ NV := $(shell glide nv)
 
 # Set up the development environment
 setup:
-	glide up --import --delete-flatten
+	glide up
 
 build:
 	go build -o ${BINDIR}/boot -a -installsuffix cgo -ldflags ${LDFLAGS}  boot.go
