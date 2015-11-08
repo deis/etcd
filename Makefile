@@ -77,7 +77,7 @@ kube-service: kube-secrets
 	-kubectl create -f ${MANIFESTS}/deis-etcd-service.json
 
 kube-secrets:
-	-kubectl create -f ${DEISCTL_UNITS}/secrets/deis-etcd-discovery-token.json
+	-kubectl create -f ${MANIFESTS}/deis-etcd-discovery-token.json
 
 test:
 	@#go test ${NV} # No tests for startup scripts.
