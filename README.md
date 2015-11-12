@@ -57,8 +57,8 @@ Kubernetes' Docker instances to allow the `--insecure-registry`.
    heartbeats layer, so it must stay running in order to help a failed
    cluster rebuild.
 5. This project builds one Docker image that has two executable paths.
-   If it is started with the `/bin/boot`, it will be an etcd cluster
-   member. If it is started with `/bin/discovery` it will come up as a
+   If it is started with the `/usr/local/bin/boot`, it will be an etcd cluster
+   member. If it is started with `/usr/local/bin/discovery` it will come up as a
    discovery service.
 
 Finally, this distribution will _not_ work outside of Kubernetes unless
