@@ -54,9 +54,10 @@ kube-delete:
 	sleep 5
 
 kube-delete-all: kube-delete
-	kubectl delete service deis-etcd-discovery
-	kubectl delete service deis-etcd-1
-	kubectl delete secret deis-etcd-discovery-token
+	-kubectl delete service deis-etcd-discovery
+	-kubectl delete rc deis-etcd-discovery
+	-kubectl delete service deis-etcd-1
+	-kubectl delete secret deis-etcd-discovery-token
 
 kube-rc:
 	@# The real pattern to match is v[0-9]+.[0-9]+.[0-9]+-[0-9]+-[0-9a-z]{8}, but
