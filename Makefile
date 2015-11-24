@@ -1,14 +1,14 @@
 # ! IMPORTANT ! We are no longer using `godeps` to run builds. You should
 # 	be using the GO15VENDOREXPERIMENT flag, and your dependencies should
 # 	all be in $DEIS/vendor
-SHORT_NAME=etcd
+SHORT_NAME ?= etcd
 
 # Set these if they are not present in the environment.
 export GOARCH ?= amd64
 export GOOS ?= linux
 export MANIFESTS ?= ./manifests
 export DEV_REGISTRY ?= "$(shell docker-machine ip deis):5000"
-export DEIS_REGISTRY ?= ${DEV_REGISTRY}
+export DEIS_REGISTRY ?= ${DEV_REGISTRY}/
 
 # Non-optional environment variables
 export GO15VENDOREXPERIMENT=1
@@ -16,9 +16,10 @@ export CGO_ENABLED=0
 
 # Environmental details
 BINDIR := rootfs/usr/local/bin
-VERSION := 0.0.1-$(shell date "+%Y%m%d%H%M%S")
+VERSION ?= 0.0.1-$(shell date "+%Y%m%d%H%M%S")
 LDFLAGS := "-s -X main.version=${VERSION}"
-IMAGE := ${DEIS_REGISTRY}/deis/${SHORT_NAME}:${VERSION}
+IMAGE_PREFIX ?= deis
+IMAGE := ${DEIS_REGISTRY}${IMAGE_PREFIX}/${SHORT_NAME}:${VERSION}
 RC := ${MANIFESTS}/deis-${SHORT_NAME}-rc.json
 DISCOVERY_RC := ${MANIFESTS}/deis-${SHORT_NAME}-discovery-rc.json
 
@@ -26,12 +27,12 @@ DISCOVERY_RC := ${MANIFESTS}/deis-${SHORT_NAME}-discovery-rc.json
 NV := $(shell glide nv)
 
 # Set up the development environment
-setup:
+bootstrap:
 	glide up
 
 build:
-	go build -o ${BINDIR}/boot -a -installsuffix cgo -ldflags ${LDFLAGS}  boot.go
-	go build -o ${BINDIR}/discovery -a -installsuffix cgo -ldflags ${LDFLAGS}  discovery.go
+	go build -o ${BINDIR}/boot -a -installsuffix cgo -ldflags ${LDFLAGS} boot.go
+	go build -o ${BINDIR}/discovery -a -installsuffix cgo -ldflags ${LDFLAGS} discovery.go
 
 info:
 	@echo "Version:    ${VERSION}"
@@ -43,7 +44,7 @@ info:
 clean:
 	-rm rootfs/bin/boot
 
-docker-build:
+docker-build: build
 	docker build --rm -t ${IMAGE} rootfs
 
 docker-push:
