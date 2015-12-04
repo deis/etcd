@@ -19,7 +19,7 @@ BINDIR := rootfs/usr/local/bin
 VERSION ?= 0.0.1-$(shell date "+%Y%m%d%H%M%S")
 LDFLAGS := "-s -X main.version=${VERSION}"
 IMAGE_PREFIX ?= deis
-IMAGE := ${DEIS_REGISTRY}${IMAGE_PREFIX}/${SHORT_NAME}:${VERSION}
+IMAGE := ${DEIS_REGISTRY}/${IMAGE_PREFIX}/${SHORT_NAME}:${VERSION}
 RC := ${MANIFESTS}/deis-${SHORT_NAME}-rc.json
 DISCOVERY_RC := ${MANIFESTS}/deis-${SHORT_NAME}-discovery-rc.json
 
