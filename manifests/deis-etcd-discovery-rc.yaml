@@ -33,11 +33,11 @@ spec:
             - name: POD_NAMESPACE
               valueFrom:
                 fieldRef:
-                  FieldPath: metadata.namespace
+                  fieldPath: metadata.namespace
             - name: POD_NAME
               valueFrom:
                 fieldRef:
-                  FieldPath: metadata.name
+                  fieldPath: metadata.name
           volumeMounts:
             - name: discovery-token
               readOnly: true
