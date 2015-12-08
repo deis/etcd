@@ -2,8 +2,17 @@ package: github.com/deis/etcd
 flatten: true
 import:
   - package: k8s.io/kubernetes
-    ref: 2e5a3cfbc62e4a63423f43f2e6d5723806569b17
+    version: ~1.1
   - package: github.com/Masterminds/cookoo
+    version: ">=1.3.0"
   - package: github.com/coreos/etcd
-    ref: v2.2.1
+    version: ~2.2
   - package: github.com/deis/pkg
+    version: ">=0.1.0"
+  # Fix for out-of-date Kubernetes references
+  - package: github.com/steveeJ/gexpect
+    repo: https://github.com/coreos/gexpect
+  - package: code.google.com/p/goprotobuf
+    repo: https://github.com/golang/protobuf
+  - package: launchpad.net/gocheck
+    repo: https://github.com/go-check/check
