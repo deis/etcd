@@ -17,10 +17,10 @@ export CGO_ENABLED=0
 BINDIR := rootfs/usr/local/bin
 VERSION ?= 0.0.1-$(shell date "+%Y%m%d%H%M%S")
 LDFLAGS := "-s -X main.version=${VERSION}"
-IMAGE_PREFIX ?= deis
+IMAGE_PREFIX ?= deisci
 IMAGE := ${DEIS_REGISTRY}${IMAGE_PREFIX}/${SHORT_NAME}:${VERSION}
-RC := ${MANIFESTS}/deis-${SHORT_NAME}-rc.json
-DISCOVERY_RC := ${MANIFESTS}/deis-${SHORT_NAME}-discovery-rc.json
+RC := ${MANIFESTS}/deis-${SHORT_NAME}-rc.yaml
+DISCOVERY_RC := ${MANIFESTS}/deis-${SHORT_NAME}-discovery-rc.yaml
 
 # Get non-vendor source code directories.
 NV := $(shell glide nv)
@@ -62,23 +62,23 @@ kube-delete-all: kube-delete
 kube-rc:
 	@# The real pattern to match is v[0-9]+.[0-9]+.[0-9]+-[0-9]+-[0-9a-z]{8}, but
 	@# we want to find broken versions, too.
-	perl -pi -e "s|[a-z0-9.:]+\/deis\/etcd:[0-9a-z-.]+|${IMAGE}|g" ${RC} ${DISCOVERY_RC}
+	perl -pi -e "s|[a-z0-9.:]+\/deisci\/etcd:[0-9a-z-.]+|${IMAGE}|g" ${RC} ${DISCOVERY_RC}
 	-kubectl create -f ${DISCOVERY_RC}
 	@echo "Pause for discovery service to come online."
 	sleep 15
 	kubectl create -f ${RC}
 
 kube-update:
-	perl -pi -e "s|[a-z0-9.:]+\/deis\/etcd:[0-9a-z-.]+|${IMAGE}|g" ${RC} ${DISCOVERY_RC}
+	perl -pi -e "s|[a-z0-9.:]+\/deisci\/etcd:[0-9a-z-.]+|${IMAGE}|g" ${RC} ${DISCOVERY_RC}
 	kubectl update -f ${DISCOVERY_RC}
 	kubectl update -f ${RC}
 
 kube-service: kube-secrets
-	-kubectl create -f ${MANIFESTS}/deis-etcd-discovery-service.json
-	-kubectl create -f ${MANIFESTS}/deis-etcd-service.json
+	-kubectl create -f ${MANIFESTS}/deis-etcd-discovery-service.yaml
+	-kubectl create -f ${MANIFESTS}/deis-etcd-service.yaml
 
 kube-secrets:
-	-kubectl create -f ${MANIFESTS}/deis-etcd-discovery-token.json
+	-kubectl create -f ${MANIFESTS}/deis-etcd-discovery-token.yaml
 
 test:
 	@#go test ${NV} # No tests for startup scripts.

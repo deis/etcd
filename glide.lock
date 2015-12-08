@@ -1,9 +1,6 @@
 hash: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
-updated: 2015-12-07T17:22:05.875023151-07:00
+updated: 2015-12-08T13:50:03.054926071-07:00
 imports:
-- name: appengine
-  version: ""
-  repo: https://appengine
 - name: bitbucket.org/bertimus9/systemstat
   version: 1468fd0db20598383c9393cccaa547de6ad99e5e
 - name: bitbucket.org/ww/goautoneg
@@ -28,8 +25,8 @@ imports:
   - bigquery/v2
   - googleapi
 - name: code.google.com/p/goprotobuf
-  version: ""
-  repo: https://code.google.com/p/goprotobuf
+  version: 68415e7123da32b07eab49c96d2c4d6158360e9b
+  repo: https://github.com/golang/protobuf
 - name: code.google.com/p/gosqlite
   version: 74691fb6f837
 - name: code.google.com/p/log4go
@@ -131,6 +128,8 @@ imports:
   - registry
   - schema
   - unit
+- name: github.com/coreos/gexpect
+  version: 5173270e159f5aa8fbc999dc7e3dcb50f4098a69
 - name: github.com/coreos/go-etcd
   version: 4cceaf7283b76f27c4a732b20730dcdb61053bf5
   subpackages:
@@ -181,7 +180,7 @@ imports:
 - name: github.com/deckarep/golang-set
   version: ef32fa3046d9f249d399f98ebaf9be944430fd1d
 - name: github.com/deis/pkg
-  version: 114f1a93541bc5d83b0421291eba7bd3fb75476e
+  version: 6378ff976348b8fcc69a24ee9528e74bcda2ddc6
 - name: github.com/denverdino/aliyungo
   version: 0e0f322d0a54b994dea9d32541050d177edf6aa3
   subpackages:
@@ -365,6 +364,8 @@ imports:
   version: f30ab90cccbd5171771d26b6557d3c2f49e047a6
 - name: github.com/kardianos/osext
   version: 8fef92e41e22a70e700a96b29f066cda30ea24ef
+- name: github.com/kballard/go-shellquote
+  version: e5c918b80c17694cbc49aab32a759f9a40067f5d
 - name: github.com/kimor79/gollectd
   version: 61d0deeb4ffcc167b2a1baa8efd72365692811bc
 - name: github.com/kr/pretty
@@ -376,7 +377,7 @@ imports:
 - name: github.com/lsegal/gucumber
   version: e8116c9c66e641e9f81fc0a79fac923dfc646378
 - name: github.com/Masterminds/cookoo
-  version: 623f8762b2474f1ad6c2cac6bf331b8871591379
+  version: 78aa11ce75e257c51be7ea945edb84cf19c4a6de
 - name: github.com/matttproud/golang_protobuf_extensions
   version: fc2b8d3a73c4867e51861bbdd5ae3c1f0869dd6a
   subpackages:
@@ -487,6 +488,9 @@ imports:
   version: 8e7dc108ab3a1ab6ce6d922bbaff5657b88e8e49
 - name: github.com/stathat/go
   version: 01d012b9ee2ecc107cb28b6dd32d9019ed5c1d77
+- name: github.com/steveeJ/gexpect
+  version: 5173270e159f5aa8fbc999dc7e3dcb50f4098a69
+  repo: https://github.com/coreos/gexpect
 - name: github.com/stevvooe/resumable
   version: 51ad44105773cafcbe91927f70ac68e1bf78f8b4
 - name: github.com/stretchr/objx
@@ -589,7 +593,8 @@ imports:
 - name: k8s.io/kubernetes
   version: 8dec957e4bba8b1260995d525a8260e03acbc181
 - name: launchpad.net/gocheck
-  version: "87"
+  version: 11d3bc7aa68e238947792f30573146a3231fc0f1
+  repo: https://github.com/go-check/check
 - name: speter.net/go/exp/math/dec/inf
   version: 42ca6cd68aa922bc3f32f1e056e61b65945d9ad7
 devImports: []
