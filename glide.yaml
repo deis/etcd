@@ -8,11 +8,12 @@ import:
   - package: github.com/coreos/etcd
     version: ~2.2
   - package: github.com/deis/pkg
-    version: ">=0.1.0"
-  # Fix for out-of-date Kubernetes references
+    version: ">=0.2.0"
   - package: github.com/steveeJ/gexpect
     repo: https://github.com/coreos/gexpect
   - package: code.google.com/p/goprotobuf
     repo: https://github.com/golang/protobuf
   - package: launchpad.net/gocheck
     repo: https://github.com/go-check/check
+ignore:
+  - appengine
