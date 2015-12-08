@@ -7,7 +7,7 @@ SHORT_NAME ?= etcd
 export GOARCH ?= amd64
 export GOOS ?= linux
 export MANIFESTS ?= ./manifests
-export DEV_REGISTRY ?= "$(shell docker-machine ip deis):5000"
+export DEV_REGISTRY ?= "$(shell docker-machine ip deis 2>&1):5000"
 export DEIS_REGISTRY ?= ${DEV_REGISTRY}/
 
 # Non-optional environment variables
