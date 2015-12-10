@@ -3,6 +3,8 @@
 # 	all be in $DEIS/vendor
 SHORT_NAME ?= etcd
 
+BUILD_TAG ?= git-$(shell git rev-parse --short HEAD)
+
 # Set these if they are not present in the environment.
 export GOARCH ?= amd64
 export GOOS ?= linux
@@ -15,10 +17,9 @@ export CGO_ENABLED=0
 
 # Environmental details
 BINDIR := rootfs/usr/local/bin
-VERSION ?= 0.0.1-$(shell date "+%Y%m%d%H%M%S")
-LDFLAGS := "-s -X main.version=${VERSION}"
+LDFLAGS := "-s -X main.version=${BUILD_TAG}"
 IMAGE_PREFIX ?= deisci
-IMAGE := ${DEIS_REGISTRY}${IMAGE_PREFIX}/${SHORT_NAME}:${VERSION}
+IMAGE := ${DEIS_REGISTRY}${IMAGE_PREFIX}/${SHORT_NAME}:${BUILD_TAG}
 RC := ${MANIFESTS}/deis-${SHORT_NAME}-rc.yaml
 DISCOVERY_RC := ${MANIFESTS}/deis-${SHORT_NAME}-discovery-rc.yaml
 
@@ -34,7 +35,7 @@ build:
 	go build -o ${BINDIR}/discovery -a -installsuffix cgo -ldflags ${LDFLAGS} discovery.go
 
 info:
-	@echo "Version:    ${VERSION}"
+	@echo "Build tag:  ${BUILD_TAG}"
 	@echo "Registry:   ${DEIS_REGISTRY}"
 	@echo "Go flags:   GOOS=${GOOS} GOARCH=${GOARCH} CGO_ENABLED=${CGO_ENABLED}"
 	@echo "Image:      ${IMAGE}"
