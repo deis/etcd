@@ -2,3 +2,4 @@ rootfs/usr/local/bin/*
 vendor/
 boot
 discovery
+manifests/*.tmp.yaml

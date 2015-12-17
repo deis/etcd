@@ -8,7 +8,6 @@ BUILD_TAG ?= git-$(shell git rev-parse --short HEAD)
 # Set these if they are not present in the environment.
 export GOARCH ?= amd64
 export GOOS ?= linux
-export MANIFESTS ?= ./manifests
 export DEIS_REGISTRY ?= ${DEV_REGISTRY}/
 
 # Non-optional environment variables
@@ -20,8 +19,7 @@ BINDIR := rootfs/usr/local/bin
 LDFLAGS := "-s -X main.version=${BUILD_TAG}"
 IMAGE_PREFIX ?= deisci
 IMAGE := ${DEIS_REGISTRY}${IMAGE_PREFIX}/${SHORT_NAME}:${BUILD_TAG}
-RC := ${MANIFESTS}/deis-${SHORT_NAME}-rc.yaml
-DISCOVERY_RC := ${MANIFESTS}/deis-${SHORT_NAME}-discovery-rc.yaml
+
 
 # Get non-vendor source code directories.
 NV := $(shell glide nv)
@@ -50,6 +48,8 @@ docker-build: build
 docker-push:
 	docker push ${IMAGE}
 
+kube-create: kube-service kube-rc
+
 kube-delete:
 	-kubectl delete rc deis-etcd-1
 	sleep 5
@@ -60,26 +60,26 @@ kube-delete-all: kube-delete
 	-kubectl delete service deis-etcd-1
 	-kubectl delete secret deis-etcd-discovery-token
 
-kube-rc:
-	@# The real pattern to match is v[0-9]+.[0-9]+.[0-9]+-[0-9]+-[0-9a-z]{8}, but
-	@# we want to find broken versions, too.
-	perl -pi -e "s|[a-z0-9.:]+\/deisci\/etcd:[0-9a-z-.]+|${IMAGE}|g" ${RC} ${DISCOVERY_RC}
-	-kubectl create -f ${DISCOVERY_RC}
+kube-rc: update-manifests
+	kubectl create -f manifests/deis-etcd-discovery-rc.tmp.yaml
 	@echo "Pause for discovery service to come online."
 	sleep 15
-	kubectl create -f ${RC}
+	kubectl create -f manifests/deis-etcd-rc.tmp.yaml
 
-kube-update:
-	perl -pi -e "s|[a-z0-9.:]+\/deisci\/etcd:[0-9a-z-.]+|${IMAGE}|g" ${RC} ${DISCOVERY_RC}
-	kubectl update -f ${DISCOVERY_RC}
-	kubectl update -f ${RC}
+kube-update: update-manifests
+	kubectl update -f manifests/deis-etcd-discovery-rc.tmp.yaml
+	kubectl update -f manifests/deis-etcd-rc.tmp.yaml
 
 kube-service: kube-secrets
-	-kubectl create -f ${MANIFESTS}/deis-etcd-discovery-service.yaml
-	-kubectl create -f ${MANIFESTS}/deis-etcd-service.yaml
+	-kubectl create -f manifests/deis-etcd-discovery-service.yaml
+	-kubectl create -f manifests/deis-etcd-service.yaml
 
 kube-secrets:
-	-kubectl create -f ${MANIFESTS}/deis-etcd-discovery-token.yaml
+	-kubectl create -f manifests/deis-etcd-discovery-token.yaml
+
+update-manifests:
+	sed 's#\(image:\) .*#\1 $(IMAGE)#' manifests/deis-etcd-discovery-rc.yaml > manifests/deis-etcd-discovery-rc.tmp.yaml
+	sed 's#\(image:\) .*#\1 $(IMAGE)#' manifests/deis-etcd-rc.yaml > manifests/deis-etcd-rc.tmp.yaml
 
 test:
 	@#go test ${NV} # No tests for startup scripts.
