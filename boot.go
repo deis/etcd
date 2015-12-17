@@ -292,22 +292,35 @@ func iam(c cookoo.Context, p *cookoo.Params) (interface{}, cookoo.Interrupt) {
 	me, err := aboutme.FromEnv()
 	if err != nil {
 		log.Errf(c, "Failed aboutme.FromEnv: %s", err)
-	} else {
-
-		if strings.TrimSpace(me.IP) == "" {
-			log.Warn(c, "No IP found by API query.")
-			ip, err := aboutme.MyIP()
-			if err != nil || ip == "" {
-				// Force pod death.
-				log.Errf(c, "Failed to get an IP address: %s", err)
-				os.Exit(5)
-			}
-		}
-
-		me.ShuntEnv()
-		os.Setenv("ETCD_NAME", me.Name)
-		c.Put("ETCD_NAME", me.Name)
+		log.Warn(c, "Attempting to recover.")
 	}
+
+	// This will try to recover whenever IP is not set. Only some fields
+	// can be recovered. But all we really need is IP and Name.
+	if strings.TrimSpace(me.IP) == "" {
+		log.Warn(c, "No IP found by API query.")
+		ip, err := aboutme.MyIP()
+		if err != nil || ip == "" {
+			// Force pod death.
+			log.Errf(c, "Failed to get an IP address: %s", err)
+			os.Exit(5)
+		}
+		me.IP = ip
+	}
+	if strings.TrimSpace(me.Name) == "" {
+		// Try to set name from DAPI.
+		me.Name = os.Getenv("POD_NAME")
+		log.Warnf(c, "Setting name to %q", me.Name)
+	}
+	if strings.TrimSpace(me.Namespace) == "" {
+		// Try to set namespace from DAPI.
+		me.Namespace = os.Getenv("POD_NAMESPACE")
+		log.Warnf(c, "Setting name to %q", me.Namespace)
+	}
+
+	me.ShuntEnv()
+	os.Setenv("ETCD_NAME", me.Name)
+	c.Put("ETCD_NAME", me.Name)
 
 	passEnv("MY_PORT_CLIENT", "$DEIS_ETCD_1_SERVICE_PORT_CLIENT")
 	passEnv("MY_PORT_PEER", "$DEIS_ETCD_1_SERVICE_PORT_PEER")

@@ -8,7 +8,7 @@ import:
   - package: github.com/coreos/etcd
     version: ~2.2
   - package: github.com/deis/pkg
-    version: ">=0.2.0"
+    version: ">=0.2.1"
   - package: github.com/steveeJ/gexpect
     repo: https://github.com/coreos/gexpect
   - package: code.google.com/p/goprotobuf

@@ -1,5 +1,5 @@
 hash: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
-updated: 2015-12-08T13:50:03.054926071-07:00
+updated: 2015-12-17T16:03:21.283876671-07:00
 imports:
 - name: bitbucket.org/bertimus9/systemstat
   version: 1468fd0db20598383c9393cccaa547de6ad99e5e
@@ -180,7 +180,7 @@ imports:
 - name: github.com/deckarep/golang-set
   version: ef32fa3046d9f249d399f98ebaf9be944430fd1d
 - name: github.com/deis/pkg
-  version: 6378ff976348b8fcc69a24ee9528e74bcda2ddc6
+  version: ee60d947fecd410bd9ea30ffb53f9ea3e6dc038e
 - name: github.com/denverdino/aliyungo
   version: 0e0f322d0a54b994dea9d32541050d177edf6aa3
   subpackages:
