@@ -293,6 +293,17 @@ func iam(c cookoo.Context, p *cookoo.Params) (interface{}, cookoo.Interrupt) {
 	if err != nil {
 		log.Errf(c, "Failed aboutme.FromEnv: %s", err)
 	} else {
+
+		if strings.TrimSpace(me.IP) == "" {
+			log.Warn(c, "No IP found by API query.")
+			ip, err := aboutme.MyIP()
+			if err != nil || ip == "" {
+				// Force pod death.
+				log.Errf(c, "Failed to get an IP address: %s", err)
+				os.Exit(5)
+			}
+		}
+
 		me.ShuntEnv()
 		os.Setenv("ETCD_NAME", me.Name)
 		c.Put("ETCD_NAME", me.Name)
