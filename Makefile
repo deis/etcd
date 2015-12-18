@@ -26,7 +26,7 @@ NV := $(shell glide nv)
 
 # Set up the development environment
 bootstrap:
-	glide up
+	glide install
 
 build:
 	go build -o ${BINDIR}/boot -a -installsuffix cgo -ldflags ${LDFLAGS} boot.go
