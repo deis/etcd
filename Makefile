@@ -3,7 +3,7 @@
 # 	all be in $DEIS/vendor
 SHORT_NAME ?= etcd
 
-BUILD_TAG ?= git-$(shell git rev-parse --short HEAD)
+VERSION ?= git-$(shell git rev-parse --short HEAD)
 
 # Set these if they are not present in the environment.
 export GOARCH ?= amd64
@@ -16,9 +16,9 @@ export CGO_ENABLED=0
 
 # Environmental details
 BINDIR := rootfs/usr/local/bin
-LDFLAGS := "-s -X main.version=${BUILD_TAG}"
+LDFLAGS := "-s -X main.version=${VERSION}"
 IMAGE_PREFIX ?= deisci
-IMAGE := ${DEIS_REGISTRY}${IMAGE_PREFIX}/${SHORT_NAME}:${BUILD_TAG}
+IMAGE := ${DEIS_REGISTRY}${IMAGE_PREFIX}/${SHORT_NAME}:${VERSION}
 
 
 # Get non-vendor source code directories.
@@ -33,7 +33,7 @@ build:
 	go build -o ${BINDIR}/discovery -a -installsuffix cgo -ldflags ${LDFLAGS} discovery.go
 
 info:
-	@echo "Build tag:  ${BUILD_TAG}"
+	@echo "Build tag:  ${VERSION}"
 	@echo "Registry:   ${DEIS_REGISTRY}"
 	@echo "Go flags:   GOOS=${GOOS} GOARCH=${GOARCH} CGO_ENABLED=${CGO_ENABLED}"
 	@echo "Image:      ${IMAGE}"
